@@ -1,8 +1,10 @@
 # dependencies
+.gitignore
 /node_modules
 /.pnp
 .pnp.cjs
 .package-lock.json
+.yarn.lock
 # testing
 /coverage
 

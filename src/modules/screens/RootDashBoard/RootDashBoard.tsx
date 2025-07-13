@@ -8,6 +8,8 @@ import BasicSelect from "../../components/DropDown";
 import { Add } from "@mui/icons-material";
 import BasicModal from "../../components/Model";
 import AddUserInfo from "../AddUserInfo/AddUserInfro";
+import { store } from "../../service/redux/store";
+import { getUserList } from "../../service/apis/userService";
 const RootDashBoard = () => {
 
     const messages = [
@@ -26,6 +28,13 @@ const RootDashBoard = () => {
         }, 10000);
         return () => clearInterval(interval);
     }, []);
+
+    useEffect(()=>{
+        const fetchList = async () => {
+           await store.dispatch(getUserList({}));
+        }
+        fetchList();
+    },[])
 
     return (
         <Box>

@@ -3,8 +3,13 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { useSelector } from 'react-redux';
 
 export default function CustomGrid() {
+  const {list
+} = useSelector(({user}: any)=> user)
+  console.log('state', list);
+  
   const [nbRows, setNbRows] = React.useState(3);
   // Custom column definitions
   const columns: GridColDef[] = [
@@ -15,13 +20,14 @@ export default function CustomGrid() {
       headerName: 'Image',
       flex: 1,
       renderCell: (params) => (
-        <img
-          src={params.value}
-          alt="user"
+       <img
+            src={params.value}
           width={40}
           height={40}
-          style={{ borderRadius: '50%' }}
-        />
+        style={{objectFit:'contain', borderRadius: "50%"}}
+  alt="Drive image"
+/>
+
       ),
     },
     { field: 'paid', headerName: 'Paid Amount', flex: 1 },
@@ -60,7 +66,7 @@ export default function CustomGrid() {
     <Box sx={{ width: '100%', p: 2 }}>
       <DataGrid
         autoHeight
-        rows={rows.slice(0, nbRows)}
+        rows={list?.data?.slice(0, nbRows)}
         columns={columns}
         pageSizeOptions={[5]}
         disableRowSelectionOnClick

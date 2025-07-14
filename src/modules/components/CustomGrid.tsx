@@ -21,7 +21,7 @@ export default function CustomGrid() {
       flex: 1,
       renderCell: (params) => (
        <img
-            src={params.value}
+            src={params?.value}
           width={40}
           height={40}
         style={{objectFit:'contain', borderRadius: "50%"}}
@@ -30,40 +30,11 @@ export default function CustomGrid() {
 
       ),
     },
-    { field: 'paid', headerName: 'Paid Amount', flex: 1 },
-    { field: 'pending', headerName: 'Pending Amount', flex: 1 },
-  ];
-
-  // Example data
-  const rows = [
-    {
-      id: 1,
-      name: 'Arun',
-      family: '4',
-      image: 'https://i.pravatar.cc/40?img=1',
-      paid: '₹5,000',
-      pending: '₹2,000',
-    },
-    {
-      id: 2,
-      name: 'Divya',
-      family: '3',
-      image: 'https://i.pravatar.cc/40?img=2',
-      paid: '₹3,500',
-      pending: '₹1,500',
-    },
-    {
-      id: 3,
-      name: 'Kumar',
-      family: '5',
-      image: 'https://i.pravatar.cc/40?img=3',
-      paid: '₹7,000',
-      pending: '₹0',
-    },
   ];
 
   return (
     <Box sx={{ width: '100%', p: 2 }}>
+      {list?.data?.length > 0 &&
       <DataGrid
         autoHeight
         rows={list?.data?.slice(0, nbRows)}
@@ -71,6 +42,7 @@ export default function CustomGrid() {
         pageSizeOptions={[5]}
         disableRowSelectionOnClick
       />
+}
     </Box>
   );
 }

@@ -17,3 +17,19 @@ export const getUserList = createAsyncThunk(
     }
   }
 );
+
+export const getEventImageFolders = createAsyncThunk(
+  "eventImage/folders-with-images",
+  async (data: any, { rejectWithValue }) => {
+    try {
+      const response = await instance.get(`eventImage/folders-with-images`, data);
+      return response.data;
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return rejectWithValue(err.response!.data);
+      } else {
+        console.log("Unexpected error", err);
+      }
+    }
+  }
+);

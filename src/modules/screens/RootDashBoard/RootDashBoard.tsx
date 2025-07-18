@@ -10,6 +10,8 @@ import BasicModal from "../../components/Model";
 import AddUserInfo from "../AddUserInfo/AddUserInfro";
 import { store } from "../../service/redux/store";
 import { getUserList } from "../../service/apis/userService";
+import TransparentLoader from "../../components/TransparentLoader";
+import { useSelector } from "react-redux";
 const RootDashBoard = () => {
 
     const messages = [
@@ -21,7 +23,7 @@ const RootDashBoard = () => {
 
     const [messageIndex, setMessageIndex] = useState(0);
     const [open, setOpen] = useState(false);
-
+    const { list } = useSelector(({ user }: any) => user);
     useEffect(() => {
         const interval = setInterval(() => {
             setMessageIndex((prev) => (prev + 1) % messages.length);
@@ -29,15 +31,18 @@ const RootDashBoard = () => {
         return () => clearInterval(interval);
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         const fetchList = async () => {
-           await store.dispatch(getUserList({}));
+            await store.dispatch(getUserList({}));
         }
         fetchList();
-    },[])
+    }, [])
 
     return (
         <Box>
+            {list?.isLoading
+                && <TransparentLoader />}
+
             <BasicModal open={open} setOpen={setOpen}>
                 <AddUserInfo />
             </BasicModal>

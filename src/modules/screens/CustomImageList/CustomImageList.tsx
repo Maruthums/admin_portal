@@ -8,6 +8,11 @@ import { Box, Button, Paper, useMediaQuery } from '@mui/material';
 import BasicSelect from '../../components/DropDown';
 import BasicModal from '../../components/Model';
 import { color } from '../../styles/color';
+import { store } from '../../service/redux/store';
+import { getEventImageFolders } from '../../service/apis/userService';
+import { useSelector } from 'react-redux';
+import GroupedImageLists from './GroupedImageList';
+import TransparentLoader from '../../components/TransparentLoader';
 
 function srcset(image: string, width: number, height: number, rows = 1, cols = 1) {
   return {
@@ -19,7 +24,7 @@ function srcset(image: string, width: number, height: number, rows = 1, cols = 1
 
 export default function CustomImageList() {
   const isMobile = useMediaQuery((theme: any) => theme?.breakpoints.down("sm"));
-
+  const { eventImage } = useSelector(({ user }: any) => user);
   const [fav, setFav] = React.useState('')
   const [open, setOpen] = React.useState(false);
   const [image, setImage] = React.useState<any>('');
@@ -27,6 +32,13 @@ export default function CustomImageList() {
     setOpen((pre) => !pre);
     setImage(item);
   }
+
+  React.useEffect(() => {
+    const fetchList = async () => {
+      await store.dispatch(getEventImageFolders({}));
+    }
+    fetchList();
+  }, [])
 
   const handleDownload = async () => {
     try {
@@ -67,13 +79,13 @@ export default function CustomImageList() {
           }}
           loading="lazy"
         />
-        <Box >        
+        <Box >
           <span style={{
-          fontFamily: 'sans-serif',
-          fontSize: '18px',
-          color: color.Mono5,
-          paddingRight:isMobile ? '10px' : '20px'
-        }}>{image.title}</span>
+            fontFamily: 'sans-serif',
+            fontSize: '18px',
+            color: color.Mono5,
+            paddingRight: isMobile ? '10px' : '20px'
+          }}>{image.title}</span>
           <Button
             onClick={() => handleDownload()}
             sx={{
@@ -89,12 +101,11 @@ export default function CustomImageList() {
     )
   }, [image])
 
-  console.log('image', image);
-
-
   return (
     <Box>
-      <BasicSelect data={['Fav', "UnFav"]} label={'Select'} setDropDown={setFav} dropDown={fav} width={250} />
+      {eventImage?.isLoading
+                && <TransparentLoader />}
+      <BasicSelect data={Object.keys(eventImage?.data)} label={'Select'} setDropDown={setFav} dropDown={fav} width={250} />
       {open &&
         <BasicModal open={open} setOpen={setOpen}>
           <RenderModel />
@@ -107,113 +118,9 @@ export default function CustomImageList() {
         display: 'flex',
         mt: 1
       }}>
-        <ImageList
-          sx={{
-            width: { sx: 500, md: 1000 },
-            transform: 'translateZ(0)',
-          }}
-          rowHeight={200}
-          gap={1}
-        >
-          {itemData.map((item) => {
-            const cols = item.featured ? 2 : 1;
-            const rows = item.featured ? 2 : 1;
-
-            return (
-              <ImageListItem onClick={() => openModel(item)} key={item.img} cols={cols} rows={rows}>
-                <img
-                  {...srcset(item.img, 250, 200, rows, cols)}
-                  alt={item.title}
-                  loading="lazy"
-                />
-                <ImageListItemBar
-                  sx={{
-                    background:
-                      'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
-                      'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-                  }}
-                  title={item.title}
-                  position="top"
-                  actionIcon={
-                    <IconButton
-                      sx={{ color: 'white' }}
-                      aria-label={`star ${item.title}`}
-                    >
-                      <StarBorderIcon />
-                    </IconButton>
-                  }
-                  actionPosition="left"
-                />
-              </ImageListItem>
-            );
-          })}
-        </ImageList>
+       <GroupedImageLists groupedData={eventImage?.data} />
       </Paper>
     </Box>
   );
 }
 
-const itemData = [
-  {
-    img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-    title: 'Breakfast',
-    author: '@bkristastucchio',
-    featured: true,
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-    title: 'Burger',
-    author: '@rollelflex_graphy726',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-    title: 'Camera',
-    author: '@helloimnik',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-    title: 'Coffee',
-    author: '@nolanissac',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-    title: 'Hats',
-    author: '@hjrc33',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-    title: 'Honey',
-    author: '@arwinneil',
-    featured: true,
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-    title: 'Basketball',
-    author: '@tjdragotta',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-    title: 'Fern',
-    author: '@katie_wasserman',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-    title: 'Mushrooms',
-    author: '@silverdalex',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-    title: 'Tomato basil',
-    author: '@shelleypauls',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-    title: 'Sea star',
-    author: '@peterlaster',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-    title: 'Bike',
-    author: '@southside_customs',
-  },
-];

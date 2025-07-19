@@ -11,6 +11,7 @@ import BusInputForm from "./modules/screens/Bus/BusInputForm";
 import CustomImageList from "./modules/screens/CustomImageList/CustomImageList";
 import AddUserInfo from "./modules/screens/AddUserInfo/AddUserInfro";
 import React from "react";
+import VideoCard from "./modules/screens/EventVideos/EventVideo";
 
 // 👇 create router with future flag
 const router = createBrowserRouter(
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
         { path: "/bus", element: <BusInputForm /> },
         { path: "/image", element: <CustomImageList /> },
         { path: "/AddUserInfo", element: <AddUserInfo /> },
+        { path: "/video", element: <VideoCard /> },
       ],
     },
   ],

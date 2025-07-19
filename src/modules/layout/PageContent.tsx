@@ -233,7 +233,7 @@ const PageContent = ({
               />
             </ListItemButton>
             <ListItemButton
-              onClick={() => handleDashboardClick("/bus")}
+              onClick={() => handleDashboardClick("/video")}
               sx={{
                 minHeight: 48,
                 justifyContent: open ? "initial" : "center",

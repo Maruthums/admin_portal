@@ -12,7 +12,6 @@ type GroupedImageListsProps = {
     openModel: any
 };
 
-// ✅ Helper to build proper Google Drive image URL
 function srcset(imageId: string, width: number, height: number, rows = 1, cols = 1) {
     const totalHeight = height * rows;
     const thumbnailUrl = `https://drive.google.com/thumbnail?id=${imageId}&sz=w1000`;
@@ -58,7 +57,7 @@ function GroupedImageLists({ groupedData, openModel }: GroupedImageListsProps) {
                                     const { src, srcSet, style }: any = srcset(item.img, 250, 200, rows, cols);
 
                                     return (
-                                        <ImageListItem onClick={() => openModel(item)} key={i} cols={cols} rows={rows}>
+                                        <ImageListItem onClick={() => openModel(src)} key={i} cols={cols} rows={rows}>
                                             <img
                                                 src={src}
                                                 srcSet={srcSet}

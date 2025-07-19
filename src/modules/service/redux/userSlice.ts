@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { getEventImageFolders, getUserList } from "../apis/userService";
+import { getBus, getEventImageFolders, getUserList, getVideos } from "../apis/userService";
+
 
 export const userSlice: any = createSlice({
   name: "user",
@@ -15,12 +16,22 @@ export const userSlice: any = createSlice({
       status: "",
       data: {},
     },
+    bus: {
+      isLoading: false,
+      status: "",
+      data: [],
+    },
+    videos: {
+      isLoading: false,
+      status: "",
+      data: [],
+    },
     sideBarEnable: true,
   },
   reducers: {
     reseteventImage: (state) => {
-		},
-    setSideBarEnable: (state, {payload}) =>{
+    },
+    setSideBarEnable: (state, { payload }) => {
       state.sideBarEnable = payload;
     },
     resetUser: () => {
@@ -62,6 +73,39 @@ export const userSlice: any = createSlice({
           action.payload?.message ? action.payload.message.toString() : "Something went wrong!"
         );
       })
+      .addCase(getBus.pending, (state) => {
+        state.bus.status = "pending";
+        state.bus.isLoading = true;
+      })
+      .addCase(getBus.fulfilled, (state, { payload }: any) => {
+        state.bus.status = "success";
+        state.bus.data = payload;
+        state.bus.isLoading = false;
+      })
+      .addCase(getBus.rejected, (state, action: any) => {
+        state.bus.status = "failed";
+        state.bus.isLoading = false;
+        toast.error(
+          action.payload?.message ? action.payload.message.toString() : "Something went wrong!"
+        );
+      }
+      )
+      .addCase(getVideos.pending, (state) => {
+        state.videos.status = "pending"
+        state.videos.isLoading = true
+      })
+      .addCase(getVideos.fulfilled, (state, { payload }: any) => {
+        state.videos.status = "success"
+        state.videos.data = payload
+        state.videos.isLoading = false
+      })
+      .addCase(getVideos.rejected, (state, action: any) => {
+        state.videos.status = "failed"
+        state.videos.isLoading = false
+        toast.error(
+          action.payload?.message ? action.payload.message.toString() : "Something went wrong!"
+        )
+      });
   },
 });
 

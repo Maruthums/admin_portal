@@ -33,3 +33,36 @@ export const getEventImageFolders = createAsyncThunk(
     }
   }
 );
+
+export const getBus = createAsyncThunk(
+  "bus",
+  async (data: any, { rejectWithValue }) => {
+    try {
+      const response = await instance.get(`bus/list`, data);
+      return response.data;
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return rejectWithValue(err.response!.data);
+      } else {
+        console.log("Unexpected error", err);
+      }
+    }
+  }
+);
+
+export const getVideos = createAsyncThunk(
+  "videos",
+  async (data: any, { rejectWithValue }) => {
+    try {
+      const response = await instance.get(`video/list`, data);
+      return response.data;
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        return rejectWithValue(err.response!.data);
+      } else {
+        console.log("Unexpected error", err);
+      }
+    }
+  }
+);
+

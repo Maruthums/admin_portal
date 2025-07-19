@@ -28,7 +28,9 @@ const formatTimeAMPM = (time: string): string => {
   return `${hour}:${min.toString().padStart(2, '0')} ${ampm}`;
 };
 
-const BusSchedule = () => {
+const BusSchedule = ({data}: any) => {
+  console.log('BusSchedule data:', data);
+  
   const now = new Date();
   const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
@@ -36,7 +38,7 @@ const BusSchedule = () => {
     // Add current time tolerance (for example, current bus = within 10 minutes of now)
     const tolerance = 10;
 
-    const allSorted = [...busSchedule]
+    const allSorted = [...data]
       .map((bus) => ({
         ...bus,
         totalMinutes: parseTime(bus.time),
@@ -64,7 +66,7 @@ const BusSchedule = () => {
       currentBus,
       upcoming: upcomingBuses,
     };
-  }, [currentMinutes]);
+  }, [data, currentMinutes]);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: { xs: 'column', lg: 'row' }, gap: 2, mt: 2 }}>

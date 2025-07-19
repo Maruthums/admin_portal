@@ -4,14 +4,11 @@ import HomeIcon from '@mui/icons-material/Home';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import RootDashBoard from '../screens/RootDashBoard/RootDashBoard';
 import { Link, useLocation } from 'react-router-dom';
 
 const FooterNav: React.FC = () => {
   const location = useLocation();
-
   const [value, setValue] = React.useState(0);
-  console.log('value', value);
   useEffect(() => {
     if (location.pathname === "/"
     ) {
@@ -23,8 +20,8 @@ const FooterNav: React.FC = () => {
     else if (location.pathname === "/image") {
       setValue(2)
     }
-     else if (location.pathname === "/image") {
-      setValue(2)
+     else if (location.pathname === "/video") {
+      setValue(3)
     }
   }, [location]);
 
@@ -58,7 +55,7 @@ const FooterNav: React.FC = () => {
         component={Link}
           to="/image"
         />
-        <BottomNavigationAction label="Settings" icon={<SettingsIcon />} />
+        <BottomNavigationAction label="Settings" icon={<SettingsIcon />}  component={Link} to="/video"/>
       </BottomNavigation>
     </Paper>
   );

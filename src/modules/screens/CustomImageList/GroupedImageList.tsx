@@ -9,6 +9,7 @@ import {
 
 type GroupedImageListsProps = {
     groupedData: Record<string, { name: string; image: string }[]>;
+    openModel: any
 };
 
 // ✅ Helper to build proper Google Drive image URL
@@ -27,7 +28,7 @@ function srcset(imageId: string, width: number, height: number, rows = 1, cols =
     };
 }
 
-function GroupedImageLists({ groupedData }: GroupedImageListsProps) {
+function GroupedImageLists({ groupedData, openModel }: GroupedImageListsProps) {
     return (
         <Box sx={{ p: 2 }}>
             {Object.entries(groupedData).map(([groupTitle, images]) => {
@@ -57,7 +58,7 @@ function GroupedImageLists({ groupedData }: GroupedImageListsProps) {
                                     const { src, srcSet, style }: any = srcset(item.img, 250, 200, rows, cols);
 
                                     return (
-                                        <ImageListItem key={i} cols={cols} rows={rows}>
+                                        <ImageListItem onClick={() => openModel(item)} key={i} cols={cols} rows={rows}>
                                             <img
                                                 src={src}
                                                 srcSet={srcSet}

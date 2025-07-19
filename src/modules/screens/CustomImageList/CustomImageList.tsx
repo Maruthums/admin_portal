@@ -4,7 +4,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import IconButton from '@mui/material/IconButton';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { Box, Button, Paper, useMediaQuery } from '@mui/material';
+import { Box, Button, Paper, Typography, useMediaQuery } from '@mui/material';
 import BasicSelect from '../../components/DropDown';
 import BasicModal from '../../components/Model';
 import { color } from '../../styles/color';
@@ -38,64 +38,45 @@ export default function CustomImageList() {
       await store.dispatch(getEventImageFolders({}));
     }
     fetchList();
-  }, [])
-
-  const handleDownload = async () => {
-    try {
-      const response = await fetch(image.img, { mode: 'cors' });
-      const blob = await response.blob();
-      const blobUrl = window.URL.createObjectURL(blob);
-
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = image.title || 'download.jpg';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      window.URL.revokeObjectURL(blobUrl);
-    } catch (error) {
-      console.error('Download failed:', error);
-      alert('Failed to download image.');
-    }
-  };
-
+  }, []);
 
   const RenderModel = React.useCallback(() => {
     return (
       <div style={{
-        alignItems: 'center',
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
       }}>
-
+        <Typography sx={{
+          mb: 2,
+          fontSize: { xs: 16, md: 20 },
+          fontWeight: 600,
+          color: color.Mono5
+        }}>
+          Image full view.
+        </Typography>
         <img
-          src={image.img}
+          src={`https://drive.google.com/thumbnail?id=${image.img}&sz=w1000`}
           alt={image.title}
           style={{
-            width: isMobile ? '250px' : '700px',
-            height: isMobile ? '250px' : 'auto',
-            objectFit: 'contain'
+            width: isMobile ? '250px' : '600px',
+            maxHeight: isMobile ? '250px' : '550px',
+            objectFit: 'contain',
+            alignSelf: 'center',
+            borderRadius: '20px',
           }}
           loading="lazy"
         />
         <Box >
-          <span style={{
-            fontFamily: 'sans-serif',
-            fontSize: '18px',
+          <Typography sx={{
+            mb: 2,
+            fontSize: 14,
+            fontWeight: 600,
             color: color.Mono5,
-            paddingRight: isMobile ? '10px' : '20px'
-          }}>{image.title}</span>
-          <Button
-            onClick={() => handleDownload()}
-            sx={{
-              background: color.DarkBlue,
-              color: color.White,
-              fontWeight: '500'
-            }}
-          >
-            Download Image
-          </Button>
+            textAlign: 'center',
+            mt: 1
+          }}>
+            {image.title}
+          </Typography>
         </Box>
       </div>
     )
@@ -104,22 +85,14 @@ export default function CustomImageList() {
   return (
     <Box>
       {eventImage?.isLoading
-                && <TransparentLoader />}
-      <BasicSelect data={Object.keys(eventImage?.data)} label={'Select'} setDropDown={setFav} dropDown={fav} width={250} />
+        && <TransparentLoader />}
+      <BasicSelect data={['All', ...Object.keys(eventImage?.data)]} label={'Select'} setDropDown={setFav} dropDown={fav} width={250} />
       {open &&
         <BasicModal open={open} setOpen={setOpen}>
           <RenderModel />
         </BasicModal>
       }
-      <Paper sx={{
-        p: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        display: 'flex',
-        mt: 1
-      }}>
-       <GroupedImageLists groupedData={eventImage?.data} />
-      </Paper>
+      <GroupedImageLists groupedData={eventImage?.data} openModel={openModel} />
     </Box>
   );
 }

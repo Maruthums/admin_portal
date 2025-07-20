@@ -14,14 +14,6 @@ import { useSelector } from 'react-redux';
 import GroupedImageLists from './GroupedImageList';
 import TransparentLoader from '../../components/TransparentLoader';
 
-function srcset(image: string, width: number, height: number, rows = 1, cols = 1) {
-  return {
-    src: `${image}?w=${width * cols}&h=${height * rows}&fit=crop&auto=format`,
-    srcSet: `${image}?w=${width * cols}&h=${height * rows
-      }&fit=crop&auto=format&dpr=2 2x`,
-  };
-}
-
 export default function CustomImageList() {
   const isMobile = useMediaQuery((theme: any) => theme?.breakpoints.down("sm"));
   const { eventImage } = useSelector(({ user }: any) => user);

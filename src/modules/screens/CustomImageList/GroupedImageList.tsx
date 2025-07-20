@@ -57,7 +57,7 @@ function GroupedImageLists({ groupedData, openModel }: GroupedImageListsProps) {
                                     const { src, srcSet, style }: any = srcset(item.img, 250, 200, rows, cols);
 
                                     return (
-                                        <ImageListItem onClick={() => openModel(src)} key={i} cols={cols} rows={rows}>
+                                        <ImageListItem onClick={() => openModel(item)} key={i} cols={cols} rows={rows}>
                                             <img
                                                 src={src}
                                                 srcSet={srcSet}

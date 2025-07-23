@@ -67,6 +67,7 @@ const RootDashBoard = () => {
                     List of Family members registered in the system.
                 </Typography>
                 <UserCard people={list?.data} />
+                <Box sx={{ mb: 5 }} />
             </Box>
         </Box>
 

@@ -5,6 +5,7 @@ import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import SettingsIcon from '@mui/icons-material/Settings';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link, useLocation } from 'react-router-dom';
+import { VideoLibrary } from '@mui/icons-material';
 
 const FooterNav: React.FC = () => {
   const location = useLocation();
@@ -55,7 +56,7 @@ const FooterNav: React.FC = () => {
         component={Link}
           to="/image"
         />
-        <BottomNavigationAction label="Settings" icon={<SettingsIcon />}  component={Link} to="/video"/>
+        <BottomNavigationAction label="Video" icon={<VideoLibrary />}  component={Link} to="/video"/>
       </BottomNavigation>
     </Paper>
   );

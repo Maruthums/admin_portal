@@ -54,14 +54,13 @@ const VideoCard = () => {
 
                     return (
                         <Grid size={{ xs: 12, md: 4, lg: 3 }} key={index}>
-                            <Card>
+                            <Card sx={{ maxWidth: window.innerWidth * 0.75, mb: 2 }}>
                                 {youTubeId ? (
                                     <CardMedia
                                         component="iframe"
                                         src={`https://www.youtube.com/embed/${youTubeId}?autoplay=${isPlaying ? 1 : 0}`}
                                         onClick={() => setPlayingIndex(index)}
-                                        sx={{ height: 200 }}
-                                        allow="autoplay; encrypted-media"
+                                        sx={{ height: 200, width: '100%' }}
                                         allowFullScreen
                                     />
                                 ) : (

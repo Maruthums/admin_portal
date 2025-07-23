@@ -12,6 +12,8 @@ const getDriveImageUrl = (fileId: string) => `https://drive.google.com/thumbnail
 
 
 const UserCard = ({ people }: any) => {
+    console.log('people', people);
+    
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2}>
@@ -22,14 +24,14 @@ const UserCard = ({ people }: any) => {
                                 <CardMedia
                                     component="img"
                                     height="200"
-                                    image={getDriveImageUrl(person.image)}
+                                    image={getDriveImageUrl(person?.image)}
                                     alt={person.name}
                                     sx={{ objectFit: 'cover' }}
                                 />
                                 <CardContent>
                                     <Typography variant="h6"
                                         sx={{
-                                            fontSize: { xs: 16, md: 20 },
+                                            fontSize: { xs: 15, md: 20 },
                                             fontWeight: 600,
                                             color: color.Mono5
                                         }} gutterBottom>
